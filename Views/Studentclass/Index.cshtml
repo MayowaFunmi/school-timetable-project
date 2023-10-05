@@ -1,0 +1,87 @@
+@model SchoolTimeTable.Data.SChoolClassModelView
+
+@{
+    ViewBag.Title = "All Classes";
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="mb-3">
+        @TempData["msg"]
+    </div>
+}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClassModal">
+    Add Classes
+</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>School Id</th>
+            <th>School Name</th>
+            <th>School UniqueId</th>
+            <th colspan="@Model.StudentClasses.Count">Classes</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.School.SchoolId</td>
+            <td>@Model.School.Name</td>
+            <td>@Model.School.UniqueId</td>
+            @foreach (var cls in Model.StudentClasses)
+            {
+                <td>@cls.Name</td>
+            }
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            @foreach (var cls in Model.StudentClasses)
+            {
+                <td>
+                    @foreach (var arm in cls.ClassArms)
+                    {
+                        @arm.Name
+                    }
+                </td>
+            }
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="addClassModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Class</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form asp-action="Create" method="post">
+          @Html.AntiForgeryToken()
+          <div class="form-group">
+            <input type="hidden" asp-for="StudentClass.SchoolId" value="@Model.School.SchoolId" />
+            <input type="hidden" asp-for="StudentClass.SchoolUniqueId" value="@Model.School.UniqueId" />
+            <div class="form-floating">
+                <label asp-for="StudentClass.Name">Class</label>
+                <input asp-for="StudentClass.Name" class="form-control" />
+                <span asp-validation-for="StudentClass.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating">
+                <label asp-for="StudentClass.Arm">No Of Arms</label>
+                <input asp-for="StudentClass.Arm" class="form-control" />
+                <span asp-validation-for="StudentClass.Arm" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Add Class</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

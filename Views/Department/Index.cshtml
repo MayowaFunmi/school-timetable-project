@@ -1,0 +1,63 @@
+@model SchoolTimeTable.Data.SchoolDeptModelView
+
+@{
+    ViewBag.Title = "All Departments";
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="mb-3">
+        @TempData["msg"]
+    </div>
+}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeptModal">
+    Add Department
+</button>
+<table class="table">
+    <thead>
+        <tr>
+            <th>School Id</th>
+            <th>School Name</th>
+            <th>School UniqueId</th>
+            <th>School Departments</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+                <td>@Model.School.SchoolId</td>
+                <td>@Model.School.Name</td>
+                <td>@Model.School.UniqueId</td>
+                <td>@string.Join(", ", Model.Departments.Select(dept => dept.DepartmentName))</td>
+            </tr>
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="addDeptModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Role</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form asp-action="Create" method="post">
+          @Html.AntiForgeryToken()
+          <div class="form-group">
+            <input type="hidden" asp-for="Department.SchoolId" value="@Model.School.SchoolId" />
+            <input type="hidden" asp-for="Department.SchoolUniqueId" value="@Model.School.UniqueId" />
+            <div class="form-floating">
+                <label asp-for="Department.DepartmentName">Name of Department</label>
+                <input asp-for="Department.DepartmentName" class="form-control" />
+                <span asp-validation-for="Department.DepartmentName" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Add Department</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

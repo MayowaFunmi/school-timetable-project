@@ -1,0 +1,31 @@
+@model IEnumerable<SchoolTimeTable.Models.School>
+
+@if (TempData["msg"] != null)
+{
+  <p>@TempData["msg"]</p>
+}
+
+<h2>Welcome to School</h2>
+<p>
+    <a class="btn btn-primary" href="/School/AddSchool">Add School</a>
+</p>
+<h2>All Schools</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Admin</th>
+            <th>Name</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var school in Model)
+        {
+            <tr>
+                <td>@school.Admin.FirstName @school.Admin.LastName</td>
+                <td>@school.Name</td>
+                <td>@school.Address</td>
+            </tr>
+        }
+    </tbody>
+</table>

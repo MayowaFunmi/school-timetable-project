@@ -1,0 +1,30 @@
+@model SchoolTimeTable.Models.School
+
+@{
+    ViewBag.Title = "User Signup";
+}
+@if (TempData["msg"] != null)
+{
+  <p>@TempData["msg"]</p>
+}
+<main class="form-signin w-100 m-auto">
+  <form asp-action="AddSchool" method="post">
+    @Html.AntiForgeryToken()
+    <h1 class="h3 mb-3 fw-normal">Add A School</h1>
+
+    <div class="form-floating">
+      <label asp-for="Name">Name of School</label>
+      <input asp-for="Name" class="form-control" />
+      <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating">
+      <label asp-for="Address">School Address</label>
+      <input asp-for="Address" class="form-control" />
+      <span asp-validation-for="Address" class="text-danger"></span>
+    </div>
+    
+    <button class="btn btn-primary w-100 py-2" type="submit">Add School</button>
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
+  </form>
+</main>
